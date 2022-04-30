@@ -1,7 +1,11 @@
 import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
-import { Distribution } from "aws-cdk-lib/aws-cloudfront";
+import {
+  Distribution,
+  SecurityPolicyProtocol,
+  SSLMethod,
+} from "aws-cdk-lib/aws-cloudfront";
 import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
-import { Bucket } from "aws-cdk-lib/aws-s3";
+import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
 import { Construct } from "constructs";
 
@@ -10,6 +14,7 @@ export class WuChatStack extends Stack {
     super(scope, id, props);
 
     const bucket = new Bucket(this, "WebsiteBucket", {
+      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
@@ -22,6 +27,7 @@ export class WuChatStack extends Stack {
       defaultBehavior: {
         origin: new S3Origin(bucket),
       },
+      defaultRootObject: "index.html",
     });
   }
 }
