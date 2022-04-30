@@ -1,3 +1,6 @@
+on:
+  workflow_dispatch:
+
 jobs:
   deploy:
     name: Upload to Amazon S3
