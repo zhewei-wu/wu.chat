@@ -5,8 +5,8 @@
     "wu.chat": "bin/wu.chat.js"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "postinstall": "cd app && npm ci",
+    "build": "cd app && npm run build",
     "test": "jest",
     "cdk": "cdk"
   },
