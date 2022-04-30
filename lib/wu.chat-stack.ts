@@ -1,16 +1,19 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
+import { Bucket } from "aws-cdk-lib/aws-s3";
+import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
+import { Construct } from "constructs";
 
 export class WuChatStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const bucket = new Bucket(this, "WebsiteBucket", {
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'WuChatQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    new BucketDeployment(this, "DeployWebsite", {
+      sources: [Source.asset("app/dist")],
+      destinationBucket: bucket,
+    });
   }
 }

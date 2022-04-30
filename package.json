@@ -2,11 +2,11 @@
   "name": "wu.chat",
   "version": "0.1.0",
   "bin": {
-    "wu.chat": "bin/wu.chat.js"
+    "wu.chat": "bin/wu.chat.ts"
   },
   "scripts": {
     "postinstall": "cd app && npm ci",
-    "build": "cd app && npm run build",
+    "build": "cd app && npm run generate",
     "test": "jest",
     "cdk": "cdk"
   },
