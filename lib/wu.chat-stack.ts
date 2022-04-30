@@ -12,7 +12,7 @@ export class WuChatStack extends Stack {
     });
 
     new BucketDeployment(this, "DeployWebsite", {
-      sources: [Source.asset("app/dist")],
+      sources: [Source.asset("app/.output/public")],
       destinationBucket: bucket,
     });
   }
