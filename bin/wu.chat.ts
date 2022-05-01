@@ -8,4 +8,5 @@ const app = new App();
 const infraStack = new WuChatInfraStack(app, "wu-chat-infra-stack");
 new WuChatAssetStack(app, "wu-chat-assets-stack", {
   bucket: infraStack.bucket,
+  table: infraStack.table,
 });

@@ -1,9 +1,5 @@
 import { Stack } from "aws-cdk-lib";
-import {
-  AwsIntegration,
-  LambdaIntegration,
-  RestApi,
-} from "aws-cdk-lib/aws-apigateway";
+import { Table } from "aws-cdk-lib/aws-dynamodb";
 import {
   Code,
   Function,
@@ -16,6 +12,7 @@ import { Construct } from "constructs";
 
 export interface Assets {
   bucket: Bucket;
+  table: Table;
 }
 
 export class WuChatAssetStack extends Stack {
@@ -31,7 +28,12 @@ export class WuChatAssetStack extends Stack {
       runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset("app/.output"),
       handler: "server/index.handler",
+      environment: {
+        TABLE_NAME: assets.table.tableName,
+      },
     });
+
+    assets.table.grantReadData(fn);
 
     fn.addFunctionUrl({
       authType: FunctionUrlAuthType.NONE,
