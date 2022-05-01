@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import { App } from "aws-cdk-lib";
-import { WuChatStack } from "../lib/wu.chat-stack";
+import { WuChatInfraStack } from "../lib/wu.chat-infra-stack";
+import { WuChatAssetStack } from "../lib/wu.chat-asset-stack";
 
 const app = new App();
-new WuChatStack(app, "WuChatStack", { env: { region: "us-east-1" } });
+const infraStack = new WuChatInfraStack(app, "wu-chat-infra-stack");
+new WuChatAssetStack(app, "wu-chat-assets-stack", {
+  bucket: infraStack.bucket,
+});
