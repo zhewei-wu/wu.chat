@@ -20,14 +20,14 @@ export class WuChatAssetStack extends Stack {
     super(scope, id);
 
     new BucketDeployment(this, "BucketDeployment", {
-      sources: [Source.asset("app/.output/public")],
+      sources: [Source.asset("app/.output/public/server")],
       destinationBucket: assets.bucket,
     });
 
     const fn = new Function(this, "Function", {
       runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset("app/.output"),
-      handler: "server/index.handler",
+      handler: "index.handler",
       environment: {
         TABLE_NAME: assets.table.tableName,
       },
