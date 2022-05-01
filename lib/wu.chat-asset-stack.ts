@@ -1,5 +1,10 @@
 import { Stack } from "aws-cdk-lib";
 import {
+  AwsIntegration,
+  LambdaIntegration,
+  RestApi,
+} from "aws-cdk-lib/aws-apigateway";
+import {
   Code,
   Function,
   FunctionUrlAuthType,
