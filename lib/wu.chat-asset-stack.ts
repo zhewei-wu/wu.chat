@@ -1,4 +1,4 @@
-import { Stack } from "aws-cdk-lib";
+import { Duration, Stack } from "aws-cdk-lib";
 import { Table } from "aws-cdk-lib/aws-dynamodb";
 import {
   Code,
@@ -20,17 +20,19 @@ export class WuChatAssetStack extends Stack {
     super(scope, id);
 
     new BucketDeployment(this, "BucketDeployment", {
-      sources: [Source.asset("app/.output/public/server")],
+      sources: [Source.asset("app/.output/public")],
       destinationBucket: assets.bucket,
     });
 
     const fn = new Function(this, "Function", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset("app/.output"),
+      code: Code.fromAsset("app/.output/server"),
       handler: "index.handler",
       environment: {
         TABLE_NAME: assets.table.tableName,
       },
+      memorySize: 256,
+      timeout: Duration.seconds(30),
     });
 
     assets.table.grantReadData(fn);
